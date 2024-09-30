@@ -76,6 +76,6 @@ func bidItem(c *gin.Context) {
 	// Finally we update the highest price and email of the bidder
 	queryToUpdateABid := `UPDATE AUCTION SET B_EMAIL = $1, B_PRICE = $2 WHERE ID = $3;`
 	db.QueryRow(queryToUpdateABid, bidItemParameters.BidEmail, bidItemParameters.BidPrice, bidItemParameters.ItemID)
-	c.JSON(200, gin.H{"status": "Your bid of " + strconv.Itoa(bidItemParameters.BidPrice) + " is accepted."})
+	c.JSON(200, gin.H{"status": "Your bid of " + strconv.Itoa(bidItemParameters.BidPrice) + " is accepted.", "currentBid": bidItemParameters.BidPrice})
 
 }
