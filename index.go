@@ -21,6 +21,7 @@ func main() {
 	request.PUT("/addMediaToItem", addMediaToItem)
 	request.PUT("/startAuction", startAuction)
 	request.PUT("/endAuction", endAuction)
+	request.PUT("/resetAuction", resetAuction)
 	request.Run(":8083")
 
 }
