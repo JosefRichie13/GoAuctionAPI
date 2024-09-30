@@ -12,9 +12,13 @@ func main() {
 
 	request := gin.Default()
 
+	// Configuring 8mb for file uploads
+	request.MaxMultipartMemory = 8 << 20
+
 	request.GET("/", landingPage)
 	request.POST("/addAnAuctionItem", addAnAuctionItem)
-	request.POST("/updateAnAuctionItem", updateAnAuctionItem)
+	request.PUT("/updateAnAuctionItem", updateAnAuctionItem)
+	request.PUT("/addMediaToItem", addMediaToItem)
 	request.Run(":8083")
 
 }
