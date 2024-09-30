@@ -55,9 +55,9 @@ func updateAnAuctionItem(c *gin.Context) {
 	// Else, its rejected with a 404 as there is no item by that ID
 	if len(checkResult) > 0 {
 
-		// Update the event
-		queryToUpdateAnEvent := `UPDATE AUCTION SET I_NAME = $1, I_DESC = $2, S_EMAIL = $3, S_PRICE = $4 WHERE ID = $5;`
-		db.QueryRow(queryToUpdateAnEvent, updateAnAuctionItemParameters.ItemName, updateAnAuctionItemParameters.ItemDesc,
+		// Update the Item
+		queryToUpdateAnItem := `UPDATE AUCTION SET I_NAME = $1, I_DESC = $2, S_EMAIL = $3, S_PRICE = $4 WHERE ID = $5;`
+		db.QueryRow(queryToUpdateAnItem, updateAnAuctionItemParameters.ItemName, updateAnAuctionItemParameters.ItemDesc,
 			updateAnAuctionItemParameters.SellerEmail, updateAnAuctionItemParameters.SellerPrice, updateAnAuctionItemParameters.ItemID)
 		c.JSON(200, gin.H{"status": "Item with ID, " + updateAnAuctionItemParameters.ItemID + " updated."})
 
