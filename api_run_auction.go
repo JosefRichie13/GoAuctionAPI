@@ -79,3 +79,72 @@ func bidItem(c *gin.Context) {
 	c.JSON(200, gin.H{"status": "Your bid of " + strconv.Itoa(bidItemParameters.BidPrice) + " is accepted.", "currentBid": bidItemParameters.BidPrice})
 
 }
+
+// Defining JSON body for getCurrentBidDetails(). It requires 1 Query Parameter itemID.
+type GetCurrentBidDetailsParams struct {
+	ItemID string `form:"itemID" binding:"required"`
+}
+
+// Returns a specific Event Details
+func getCurrentBidDetails(c *gin.Context) {
+
+	// Variables for DB and Error
+	var db *sql.DB
+	var err error
+
+	// Creating an instance of the struct, GetCurrentBidDetailsParams
+	var getCurrentBidDetailsParams GetCurrentBidDetailsParams
+
+	// Bind to the struct's members. If any member is invalid, binding does not happen and an error will be returned. Then its rejected with 400
+	if c.Bind(&getCurrentBidDetailsParams) != nil {
+		c.JSON(400, gin.H{"status": "Incorrect parameters, please provide all required parameters"})
+		return
+	}
+
+	// Connect to the DB. If there is any issue connecting to the DB, throw a 500 error and return
+	db, err = sql.Open("sqlite", "./AUCTION.db")
+	if err != nil {
+		c.JSON(500, gin.H{"status": "Could not connect to DB"})
+		return
+	}
+	defer db.Close()
+
+	// Query the DB and result is held into the variable, result
+	queryToCheckCurrentBid := `SELECT * FROM AUCTION WHERE ID = $1;`
+	result := db.QueryRow(queryToCheckCurrentBid, getCurrentBidDetailsParams.ItemID)
+
+	// Defining a struct to hold the data queried by the query and scanning into it
+	type GetBidDetails struct {
+		ID       string
+		I_Name   string
+		I_Desc   string
+		I_Status string
+		S_Email  string
+		S_Price  float32
+		S_Media  string
+		B_Email  string
+		B_Price  float32
+	}
+
+	// Creating an instance of the struct, GetEventDetails
+	var getBidDetails GetBidDetails
+
+	// Scan the results into the struct
+	result.Scan(&getBidDetails.ID, &getBidDetails.I_Name, &getBidDetails.I_Desc, &getBidDetails.I_Status, &getBidDetails.S_Email, &getBidDetails.S_Price, &getBidDetails.S_Media, &getBidDetails.B_Email, &getBidDetails.B_Price)
+
+	// If the length of the ID is 0, means there is no item by that ID, we reject with a 404
+	if len(getBidDetails.ID) == 0 {
+		c.JSON(404, gin.H{"status": "No Item with ID, " + getCurrentBidDetailsParams.ItemID + " exists"})
+		return
+	}
+
+	// If the status of the item is not OPEN, means the item is not up for auction, we reject with a 403
+	if (getBidDetails.I_Status) != "OPEN" {
+		c.JSON(403, gin.H{"status": "Item with ID, " + getCurrentBidDetailsParams.ItemID + " is currently not in auction"})
+		return
+	}
+
+	c.JSON(200, gin.H{"itemID": getBidDetails.ID, "itemName": getBidDetails.I_Name, "itemDescription": getBidDetails.I_Desc, "sellerEmail": getBidDetails.S_Email,
+		"sellingPrice": getBidDetails.S_Price, "itemMedia": getBidDetails.S_Media, "currentBuyerEmail": getBidDetails.B_Email, "currentBuyingPrice": getBidDetails.B_Price})
+
+}

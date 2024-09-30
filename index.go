@@ -23,6 +23,7 @@ func main() {
 	request.PUT("/endAuction", endAuction)
 	request.PUT("/resetAuction", resetAuction)
 	request.PUT("/bidItem", bidItem)
+	request.GET("/getCurrentBidDetails", getCurrentBidDetails)
 	request.Run(":8083")
 
 }
