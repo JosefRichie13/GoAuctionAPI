@@ -67,7 +67,7 @@ func updateAnAuctionItem(c *gin.Context) {
 
 }
 
-// Defining JSON body for addMediaToItem(). It requires 1 Query Param itemID
+// Defining JSON body for addMediaToItem(). It requires 1 JSON Key itemID
 type AddMediaToItemParameters struct {
 	ItemID string `form:"itemID" binding:"required"`
 }
