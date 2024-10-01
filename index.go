@@ -16,6 +16,10 @@ func main() {
 	// Configuring 8mb for file uploads
 	request.MaxMultipartMemory = 8 << 20
 
+	// Mounting the static folder and templates folder
+	request.Static("/media", "./media")
+	request.LoadHTMLGlob("templates/*")
+
 	request.GET("/", landingPage)
 	request.POST("/addAnAuctionItem", addAnAuctionItem)
 	request.PUT("/updateAnAuctionItem", updateAnAuctionItem)
@@ -25,6 +29,7 @@ func main() {
 	request.PUT("/resetAuction", resetAuction)
 	request.PUT("/bidItem", bidItem)
 	request.GET("/getCurrentBidDetails", getCurrentBidDetails)
+	request.GET("/getCurrentBidDetailsPage", getCurrentBidDetailsPage)
 	request.GET("/getUnlistedItems", getUnlistedItems)
 	request.GET("/getOpenItems", getOpenItems)
 	request.GET("/getSoldItems", getSoldItems)
@@ -36,6 +41,26 @@ func main() {
 // Landing page route
 func landingPage(c *gin.Context) {
 	c.JSON(200, "Welcome to Auction API, currently being built")
+}
+
+// Defining JSON body for getCurrentBidPage(). It requires 1 Query Parameter itemId.
+type GetCurrentBidPageParams struct {
+	ItemID string `form:"itemID" binding:"required"`
+}
+
+// Show Bid Details in a HTML page
+func getCurrentBidDetailsPage(c *gin.Context) {
+
+	// Creating an instance of the struct, GetCurrentBidPageParams
+	var getCurrentBidPageParams GetCurrentBidPageParams
+
+	// Bind to the struct's members. If any member is invalid, binding does not happen and an error will be returned. Then its rejected with 400
+	if c.Bind(&getCurrentBidPageParams) != nil {
+		c.JSON(400, gin.H{"status": "Incorrect parameters, please provide all required parameters"})
+		return
+	}
+
+	c.HTML(200, "currentBid.html", gin.H{"itemID": getCurrentBidPageParams.ItemID})
 }
 
 // Defining JSON body for addAnAuctionItem(). It requires 4 JSON key's itemName, itemDesc, sellerEmail, sellerPrice.
@@ -79,8 +104,6 @@ func addAnAuctionItem(c *gin.Context) {
 	c.JSON(200, gin.H{"status": "Item added for Auction", "itemID": generatedID})
 
 }
-
-/////////////////////
 
 // Defining JSON body for deleteItem(). It requires 1 Query Parameter itemID.
 type DeleteItemParams struct {
