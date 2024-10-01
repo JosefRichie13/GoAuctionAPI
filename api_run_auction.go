@@ -126,7 +126,7 @@ func getCurrentBidDetails(c *gin.Context) {
 		B_Price  float32
 	}
 
-	// Creating an instance of the struct, GetEventDetails
+	// Creating an instance of the struct, GetItemDetails
 	var getBidDetails GetBidDetails
 
 	// Scan the results into the struct

@@ -24,6 +24,7 @@ func main() {
 	request.PUT("/resetAuction", resetAuction)
 	request.PUT("/bidItem", bidItem)
 	request.GET("/getCurrentBidDetails", getCurrentBidDetails)
+	request.GET("/getUnlistedItems", getUnlistedItems)
 	request.Run(":8083")
 
 }
