@@ -25,6 +25,7 @@ func main() {
 	request.PUT("/bidItem", bidItem)
 	request.GET("/getCurrentBidDetails", getCurrentBidDetails)
 	request.GET("/getUnlistedItems", getUnlistedItems)
+	request.GET("/getOpenItems", getOpenItems)
 	request.Run(":8083")
 
 }
