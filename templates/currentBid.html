@@ -57,11 +57,15 @@
             // If the item status is FINISHED, then the item's auction is over. Display the message along with the buyer's details
             if (data.itemStatus === "FINISHED") {
                 document.getElementById('noData').innerHTML = data.status + ". Please contact " + data.buyerEmail
+                document.getElementById('welcomeMessage').innerHTML = ""
+                document.getElementById('buyerDetails').innerHTML = ""
+                document.getElementById('image-container').innerHTML = ""
+                document.getElementById('sellerDetails').innerHTML = ""
             }
 
             // If the response is 200, display the auction details
             if (response.status === 200) {
-
+                document.getElementById('noData').innerHTML = ""
                 document.getElementById('welcomeMessage').innerHTML = "Welcome to the auction of '" + data.itemName + "'"
                 document.getElementById('buyerDetails').innerHTML = "The current bid is " + data.currentBuyingPrice + " by " + data.currentBuyerEmail
                 document.getElementById('image-container').innerHTML = "<img src = " + data.itemMedia + ">"
