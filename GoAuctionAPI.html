@@ -1,0 +1,41 @@
+<h1 id="backend-for-an-auction-app-using-gin-gonic-sqlite-and-go">Backend for an Auction App using Gin Gonic, SQLite and Go</h1>
+<p>This repo has the code for an Auction App Backend. <br><br></p>
+<p>The basic flow of the App is </p>
+<ul>
+<li>User creates an auction item, receives an ID in return</li>
+<li>User updates the item&#39;s media</li>
+<li>User then starts the auction</li>
+<li>Anyone can join in the auction to raise their bids</li>
+<li>User ends the auction</li>
+<li>User can delete the auction item <br><br></li>
+</ul>
+<p>The below REST API endpoints are exposed</p>
+<ul>
+<li><p>POST /addAnAuctionItem -- Creates an Auction Item</p>
+</li>
+<li><p>PUT /updateAnAuctionItem -- Updates an Auction Item</p>
+</li>
+<li><p>PUT /addMediaToItem -- Adds 1 media (photo/video) to an Auction Item</p>
+</li>
+<li><p>PUT /startAuction -- Starts an auction</p>
+</li>
+<li><p>PUT /endAuction -- Ends an auction</p>
+</li>
+<li><p>PUT /resetAuction -- Resets an auction</p>
+</li>
+<li><p>PUT /bidItem -- Bid&#39;s on an auction item</p>
+</li>
+<li><p>GET /getCurrentBidDetails -- Returns a specific auction item&#39;s bid details</p>
+</li>
+<li><p>GET /getCurrentBidDetailsPage -- Returns a specific auction item&#39;s bid details in an HTML page</p>
+</li>
+<li><p>GET /getUnlistedItems -- Returns all the auction items that are not up for an auction</p>
+</li>
+<li><p>GET /getOpenItems -- Returns all the auction items that are currently in an auction</p>
+</li>
+<li><p>GET /getSoldItems -- Returns all the auction items that are sold in an auction</p>
+</li>
+<li><p>DELETE /deleteItem -- Deletes a specific auction item <br><br></p>
+</li>
+</ul>
+<p>The entire suite of endpoints with payloads are available in GoAuctionAPI.har file. Check the GitHub repo for it.</p>

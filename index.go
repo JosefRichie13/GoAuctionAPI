@@ -40,7 +40,7 @@ func main() {
 
 // Landing page route
 func landingPage(c *gin.Context) {
-	c.JSON(200, "Welcome to Auction API, currently being built")
+	c.File("GoAuctionAPI.html")
 }
 
 // Defining JSON body for getCurrentBidPage(). It requires 1 Query Parameter itemId.
