@@ -49,9 +49,14 @@
                 document.getElementById('noData').innerHTML = "No Item with the ID '{{.itemID}}' exists"
             }
 
-            // If the response is 403, then the item is not ready for auction. Display the message
-            if (response.status === 403) {
-                document.getElementById('noData').innerHTML = "Item with ID '{{.itemID}}' not available for auction"
+            // If the item status is UNLISTED, then the item is not ready for auction. Display the message along with the seller's details
+            if (data.itemStatus === "UNLISTED") {
+                document.getElementById('noData').innerHTML = data.status + ". Please contact " + data.sellerEmail
+            }
+
+            // If the item status is FINISHED, then the item's auction is over. Display the message along with the buyer's details
+            if (data.itemStatus === "FINISHED") {
+                document.getElementById('noData').innerHTML = data.status + ". Please contact " + data.buyerEmail
             }
 
             // If the response is 200, display the auction details

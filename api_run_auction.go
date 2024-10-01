@@ -138,9 +138,15 @@ func getCurrentBidDetails(c *gin.Context) {
 		return
 	}
 
-	// If the status of the item is not OPEN, means the item is not up for auction, we reject with a 403
-	if (getBidDetails.I_Status) != "OPEN" {
-		c.JSON(403, gin.H{"status": "Item with ID, " + getCurrentBidDetailsParams.ItemID + " is currently not in auction"})
+	// If the status of the item is UNLISTED, means the item is not up for auction, we reject with a 403
+	if (getBidDetails.I_Status) == "UNLISTED" {
+		c.JSON(403, gin.H{"status": "Item with ID, " + getBidDetails.ID + " is not up for auction", "sellerEmail": getBidDetails.S_Email, "itemStatus": getBidDetails.I_Status})
+		return
+	}
+
+	// If the status of the item is FINISHED, means the auction is over, we reject with a 403
+	if (getBidDetails.I_Status) == "FINISHED" {
+		c.JSON(403, gin.H{"status": "Item with ID, " + getBidDetails.ID + " is already sold", "buyerEmail": getBidDetails.B_Email, "itemStatus": getBidDetails.I_Status})
 		return
 	}
 
