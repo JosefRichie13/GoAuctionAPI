@@ -85,7 +85,7 @@ type GetCurrentBidDetailsParams struct {
 	ItemID string `form:"itemID" binding:"required"`
 }
 
-// Returns a specific Event Details
+// Returns a specific Bid Details
 func getCurrentBidDetails(c *gin.Context) {
 
 	// Variables for DB and Error
@@ -126,7 +126,7 @@ func getCurrentBidDetails(c *gin.Context) {
 		B_Price  float32
 	}
 
-	// Creating an instance of the struct, GetItemDetails
+	// Creating an instance of the struct, GetBidDetails
 	var getBidDetails GetBidDetails
 
 	// Scan the results into the struct
@@ -144,6 +144,7 @@ func getCurrentBidDetails(c *gin.Context) {
 		return
 	}
 
+	// Finally we return all the specific bid details
 	c.JSON(200, gin.H{"itemID": getBidDetails.ID, "itemName": getBidDetails.I_Name, "itemDescription": getBidDetails.I_Desc, "sellerEmail": getBidDetails.S_Email,
 		"sellingPrice": getBidDetails.S_Price, "itemMedia": getBidDetails.S_Media, "currentBuyerEmail": getBidDetails.B_Email, "currentBuyingPrice": getBidDetails.B_Price})
 
