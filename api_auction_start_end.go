@@ -39,17 +39,24 @@ func startAuction(c *gin.Context) {
 
 	// Check if the ItemID exists in the DB by querying for the ID
 	// Result is scanned into the variable, checkResult
-	queryToCheckExistingItem := `SELECT ID, I_STATUS FROM AUCTION WHERE ID=$1;`
+	queryToCheckExistingItem := `SELECT ID, I_STATUS, S_MEDIA FROM AUCTION WHERE ID=$1;`
 	result := db.QueryRow(queryToCheckExistingItem, auctionParameters.ItemID)
 
 	// Defining a struct to hold the data queried by the query and scanning into it
 	type CheckItem struct {
 		checkID     string
 		checkStatus string
+		checkMedia  string
 	}
 
 	var checkItem CheckItem
-	result.Scan(&checkItem.checkID, &checkItem.checkStatus)
+	result.Scan(&checkItem.checkID, &checkItem.checkStatus, &checkItem.checkMedia)
+
+	// Checks if the media is present, if not, we won't start the auction
+	if checkItem.checkMedia == "PATH_NOT_FOUND" {
+		c.JSON(404, gin.H{"status": "No media found for the Item with ID, " + auctionParameters.ItemID + ". Cannot start the auction"})
+		return
+	}
 
 	// If the length of checkResult is greater than 0, means the query returned a result, so there is an item by that ID
 	// So, update the item
