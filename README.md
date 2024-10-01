@@ -27,16 +27,16 @@ The below REST API endpoints are exposed
   
 * PUT /bidItem -- Bid's on an auction item
   
-* GET /getCurrentBidDetails -- Returns a specific Item's bid details
+* GET /getCurrentBidDetails -- Returns a specific auction item's bid details
   
-* GET /getCurrentBidDetailsPage -- Returns a specific Item's bid details in an HTML page
+* GET /getCurrentBidDetailsPage -- Returns a specific auction item's bid details in an HTML page
   
-* GET /getUnlistedItems -- Returns all the items that are not up for an auction
+* GET /getUnlistedItems -- Returns all the auction items that are not up for an auction
  
-* GET /getOpenItems -- Returns all the items that are currently in an auction
+* GET /getOpenItems -- Returns all the auction items that are currently in an auction
 
-* GET /getSoldItems -- Returns all the items that are sold in an auction
+* GET /getSoldItems -- Returns all the auction items that are sold in an auction
 
-* DELETE /deleteItem -- Deletes a specific item <br><br>
+* DELETE /deleteItem -- Deletes a specific auction item <br><br>
 
 The entire suite of endpoints with payloads are available in this HAR, [GoAuctionAPI.har](GoAuctionAPI.har)
